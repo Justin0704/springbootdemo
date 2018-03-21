@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hrt.springbootdemo.mapper.UserMapper">
+    
+    <resultMap id="userMap" type="com.hrt.springbootdemo.model.User">
+        <result column="id" property="id"/>
+        <result column="user_name" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickname"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="area" property="area"/>
+        <result column="alipay_account" property="alipayAccount"/>
+        <result column="weixin_account" property="weixinAccount"/>
+        <result column="register_time" property="registerTime"/>
+        <result column="level" property="level"/>
+        <result column="integral" property="integral"/>
+        <result column="balance" property="balance"/>
+        <result column="spread_code" property="spreadCode"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_nickname" property="parentNickname"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+    
+    <select id="queryUserById" resultType="com.hrt.springbootdemo.model.User">
+        select * from t_user where id = #{id}
+    </select>
+
+    <select id="queryAllUsers" resultMap="userMap">
+        select
+            t.id,
+            t.user_name,
+            t.password,
+            t.nick_name,
+            t.sex,
+            t.age,
+            t.area,
+            t.alipay_account,
+            t.weixin_account,
+            t.register_time,
+            t.level,
+            t.integral,
+            t.balance,
+            t.spread_code,
+            t.parent_id,
+            t.parent_nickname,
+            t.edit_time,
+            t.is_delete
+        from t_user t
+        <where>
+            t.is_delete = 'N'
+        </where>
+    </select>
+
+    <insert id="regUser" parameterType="com.hrt.springbootdemo.model.User">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_user(
+            user_name,
+            password,
+            nick_name,
+            sex,
+            age,
+            area,
+            alipay_account,
+            weixin_account,
+            register_time,
+            level,
+            integral,
+            balance,
+            spread_code,
+            parent_id,
+            parent_nickname,
+            edit_time,
+            is_delete)
+        values(
+            #{username,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{nickname,jdbcType=VARCHAR},
+            #{sex,jdbcType=VARCHAR},
+            #{age,jdbcType=INTEGER},
+            #{area,jdbcType=VARCHAR},
+            #{alipayAccount,jdbcType=VARCHAR},
+            #{weixinAccount,jdbcType=VARCHAR},
+            #{registerTime,jdbcType=TIMESTAMP},
+            #{level,jdbcType=VARCHAR},
+            #{integral,jdbcType=INTEGER},
+            #{balance,jdbcType=NUMERIC},
+            #{spreadCode,jdbcType=VARCHAR},
+            #{parentId,jdbcType=BIGINT},
+            #{parentNickname,jdbcType=VARCHAR},
+            #{editTime,jdbcType=TIMESTAMP},
+            'N')
+    </insert>
+    <!-- 修改 -->
+    <update id="updateUser" parameterType="com.hrt.springbootdemo.model.User">
+        update t_user
+        <set>
+            <if test="username != null and username != ''">
+                user_name = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nick_name = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="alipayAccount != null and alipayAccount != ''">
+                alipay_account = #{alipayAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="weixinAccount != null and weixinAccount != ''">
+                weixin_account = #{weixinAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null and level != ''">
+                level = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="integral != null and integral != ''">
+                level = #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null and balance != ''">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="spreadCode != null and spreadCode != ''">
+                spread_code = #{spreadCode,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="parentNickname != null and parentNickname != ''">
+                parent_nickname = #{parentNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="editTime != null and editTime != ''">
+                edit_time = #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                is_delete = #{isDelete,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
+    <!-- 删除操作 -->
+    <update id="deleteUser" parameterType="java.lang.Long">
+        update t_user set is_delete = 'Y' WHERE id = #{id,jdbcType=NUMERIC}
+    </update>
+</mapper>

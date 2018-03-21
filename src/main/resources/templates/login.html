@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>登录页面</title>
+    <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{bootstrap/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <link th:href="@{css/signin.css}"/>
+    <link th:href="@{css/ie10-viewport-bug-workaround.css}"/>
+    <script src="@{js/ie-emulation-modes-warning.js}"></script>
+</head>
+<body>
+
+    <div class="container">
+        <form th:class="form-signin" th:action="@{/index}" action="/index" th:method="post">
+            <h2 th:class="form-signin-heading">请登录</h2>
+            <label th:for="inputEmail" th:class="sr-only">邮箱地址:</label>
+            <input th:type="email" th:id="inputEmail" th:class="form-control" th:placeholder="邮箱地址" value="djlijian@126.com" th:required="required" th:autofocus="autofocus">
+            <label th:for="inputPassword" th:class="sr-only">密码:</label>
+            <input th:type="password" th:id="inputPassword"  th:class="form-control" th:placeholder="密码" value="123456" th:required="required">
+            <div th:class="checkbox">
+                <label><input th:type="checkbox" th:value="rememberMe">记住我</label>
+                <button class="btn btn-lg btn-primary btn-block" th:type="submit">登录</button>
+            </div>
+        </form>
+    </div>
+
+    <script th:src="@{jquery-3.3.1.min.js}" type="text/javascript"></script>
+    <script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+    <script src="@{js/ie10-viewport-bug-workaround.js}"></script>
+</body>
+</html>
